@@ -15,25 +15,37 @@ class HabitList extends StatelessWidget {
       itemCount: habitDatabase.currentHabits.length,
       itemBuilder: (context, index) {
         final habit = habitDatabase.currentHabits[index];
+        final today = DateTime.now();
+        bool isDoneToday = habit.completedDays.any((date) =>
+            date.year == today.year &&
+            date.month == today.month &&
+            date.day == today.day);
 
-        // Define the function to check if the habit is done today
-        bool isDoneToday() {
-          final today = DateTime.now();
-          return habit.completedDays.any((date) =>
-              date.year == today.year &&
-              date.month == today.month &&
-              date.day == today.day);
-        }
-
-        return ListTile(
-          title: Text(
-            habit.name,
-            style: TextStyle(
-              color: isDoneToday()
+        return GestureDetector(
+          onTap: () {
+            // bool currentlyDone = isDoneToday;
+            habitDatabase.updateHabitDate(habit.id, !isDoneToday);
+          },
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 8),
+            margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: isDoneToday
                   ? Colors.green
                   : themeProvider.isDarkMode
-                      ? Colors.white
-                      : Colors.black,
+                      ? Colors.black
+                      : Colors.white,
+            ),
+            child: ListTile(
+              title: Text(habit.name),
+              leading: Checkbox(
+                value: isDoneToday,
+                activeColor: Colors.green,
+                onChanged: (bool? value) {
+                  habitDatabase.updateHabitDate(habit.id, value ?? false);
+                },
+              ),
             ),
           ),
         );
