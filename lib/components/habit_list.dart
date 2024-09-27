@@ -12,19 +12,18 @@ class HabitList extends StatelessWidget {
     final habitDatabase = Provider.of<HabitDatabase>(context);
 
     return ListView.builder(
-      itemCount: habitDatabase.currentHabits.length,
+      itemCount: habitDatabase.currentHabit.length,
       itemBuilder: (context, index) {
-        final habit = habitDatabase.currentHabits[index];
+        final habit = habitDatabase.currentHabit[index];
         final today = DateTime.now();
-        bool isDoneToday = habit.completedDays.any((date) =>
+        bool isDoneToday = habit.complatedDays.any((date) =>
             date.year == today.year &&
             date.month == today.month &&
             date.day == today.day);
 
         return GestureDetector(
           onTap: () {
-            // bool currentlyDone = isDoneToday;
-            habitDatabase.updateHabitDate(habit.id, !isDoneToday);
+            habitDatabase.updateHabitName(habit.id, (!isDoneToday) as String);
           },
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 8),
@@ -38,12 +37,22 @@ class HabitList extends StatelessWidget {
                       : Colors.white,
             ),
             child: ListTile(
-              title: Text(habit.name),
+              title: Text(
+                habit.name,
+                style: TextStyle(
+                  color: isDoneToday
+                      ? Colors.white
+                      : Theme.of(context).colorScheme.secondary,
+                  fontWeight: FontWeight
+                      .w800, // Use FontWeight.w500 instead of FontWeight(500)
+                ),
+              ),
               leading: Checkbox(
                 value: isDoneToday,
                 activeColor: Colors.green,
                 onChanged: (bool? value) {
-                  habitDatabase.updateHabitDate(habit.id, value ?? false);
+                  habitDatabase.updateHabitName(
+                      habit.id, (value ?? false) as String);
                 },
               ),
             ),

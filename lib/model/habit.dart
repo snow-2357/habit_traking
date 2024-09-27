@@ -1,10 +1,14 @@
 import 'package:isar/isar.dart';
 
-part 'habit.g.dart';
+part "habit.g.dart";
 
-@Collection()
+@collection
 class Habit {
   Id id = Isar.autoIncrement;
-  late String name;
-  List<DateTime> completedDays = [];
+  late String habitName;
+  List<DateTime> complatedDays = [
+    //DateTime(year,month,day)
+  ];
+
+  String get name => null;
 }

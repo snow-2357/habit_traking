@@ -1,26 +1,31 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:habit_tracking/theme/theme_provider.dart';
 
-class CustomDrawer extends StatelessWidget {
-  const CustomDrawer({super.key});
+import 'package:provider/provider.dart';
+
+class MyDrawer extends StatelessWidget {
+  const MyDrawer({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider =
-        Provider.of<ThemeProvider>(context); // Access ThemeProvider
-
     return Drawer(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: Theme.of(context).colorScheme.background,
       child: Center(
-        child: CupertinoSwitch(
-          value: themeProvider
-              .isDarkMode, // Current value of the theme (dark/light)
-          onChanged: (value) {
-            themeProvider
-                .toggleTheme(); // Toggle the theme when the switch is changed
-          },
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Provider.of<ThemeProvider>(context).isDarkMode
+                ? Icons.dark_mode
+                : Icons.sunny),
+            Switch(
+                value: Provider.of<ThemeProvider>(context).isDarkMode,
+                onChanged: (value) =>
+                    Provider.of<ThemeProvider>(context, listen: false)
+                        .toggleTheme()),
+          ],
         ),
       ),
     );

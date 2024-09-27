@@ -17,14 +17,14 @@ const HabitSchema = CollectionSchema(
   name: r'Habit',
   id: 3896650575830519340,
   properties: {
-    r'completedDays': PropertySchema(
+    r'complatedDays': PropertySchema(
       id: 0,
-      name: r'completedDays',
+      name: r'complatedDays',
       type: IsarType.dateTimeList,
     ),
-    r'name': PropertySchema(
+    r'habitName': PropertySchema(
       id: 1,
-      name: r'name',
+      name: r'habitName',
       type: IsarType.string,
     )
   },
@@ -48,8 +48,8 @@ int _habitEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  bytesCount += 3 + object.completedDays.length * 8;
-  bytesCount += 3 + object.name.length * 3;
+  bytesCount += 3 + object.complatedDays.length * 8;
+  bytesCount += 3 + object.habitName.length * 3;
   return bytesCount;
 }
 
@@ -59,8 +59,8 @@ void _habitSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeDateTimeList(offsets[0], object.completedDays);
-  writer.writeString(offsets[1], object.name);
+  writer.writeDateTimeList(offsets[0], object.complatedDays);
+  writer.writeString(offsets[1], object.habitName);
 }
 
 Habit _habitDeserialize(
@@ -70,9 +70,9 @@ Habit _habitDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Habit();
-  object.completedDays = reader.readDateTimeList(offsets[0]) ?? [];
+  object.complatedDays = reader.readDateTimeList(offsets[0]) ?? [];
+  object.habitName = reader.readString(offsets[1]);
   object.id = id;
-  object.name = reader.readString(offsets[1]);
   return object;
 }
 
@@ -180,45 +180,45 @@ extension HabitQueryWhere on QueryBuilder<Habit, Habit, QWhereClause> {
 }
 
 extension HabitQueryFilter on QueryBuilder<Habit, Habit, QFilterCondition> {
-  QueryBuilder<Habit, Habit, QAfterFilterCondition> completedDaysElementEqualTo(
+  QueryBuilder<Habit, Habit, QAfterFilterCondition> complatedDaysElementEqualTo(
       DateTime value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'completedDays',
+        property: r'complatedDays',
         value: value,
       ));
     });
   }
 
   QueryBuilder<Habit, Habit, QAfterFilterCondition>
-      completedDaysElementGreaterThan(
+      complatedDaysElementGreaterThan(
     DateTime value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'completedDays',
+        property: r'complatedDays',
         value: value,
       ));
     });
   }
 
   QueryBuilder<Habit, Habit, QAfterFilterCondition>
-      completedDaysElementLessThan(
+      complatedDaysElementLessThan(
     DateTime value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'completedDays',
+        property: r'complatedDays',
         value: value,
       ));
     });
   }
 
-  QueryBuilder<Habit, Habit, QAfterFilterCondition> completedDaysElementBetween(
+  QueryBuilder<Habit, Habit, QAfterFilterCondition> complatedDaysElementBetween(
     DateTime lower,
     DateTime upper, {
     bool includeLower = true,
@@ -226,7 +226,7 @@ extension HabitQueryFilter on QueryBuilder<Habit, Habit, QFilterCondition> {
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'completedDays',
+        property: r'complatedDays',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -235,11 +235,11 @@ extension HabitQueryFilter on QueryBuilder<Habit, Habit, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Habit, Habit, QAfterFilterCondition> completedDaysLengthEqualTo(
+  QueryBuilder<Habit, Habit, QAfterFilterCondition> complatedDaysLengthEqualTo(
       int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
-        r'completedDays',
+        r'complatedDays',
         length,
         true,
         length,
@@ -248,10 +248,10 @@ extension HabitQueryFilter on QueryBuilder<Habit, Habit, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Habit, Habit, QAfterFilterCondition> completedDaysIsEmpty() {
+  QueryBuilder<Habit, Habit, QAfterFilterCondition> complatedDaysIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
-        r'completedDays',
+        r'complatedDays',
         0,
         true,
         0,
@@ -260,10 +260,10 @@ extension HabitQueryFilter on QueryBuilder<Habit, Habit, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Habit, Habit, QAfterFilterCondition> completedDaysIsNotEmpty() {
+  QueryBuilder<Habit, Habit, QAfterFilterCondition> complatedDaysIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
-        r'completedDays',
+        r'complatedDays',
         0,
         false,
         999999,
@@ -272,13 +272,13 @@ extension HabitQueryFilter on QueryBuilder<Habit, Habit, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Habit, Habit, QAfterFilterCondition> completedDaysLengthLessThan(
+  QueryBuilder<Habit, Habit, QAfterFilterCondition> complatedDaysLengthLessThan(
     int length, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
-        r'completedDays',
+        r'complatedDays',
         0,
         true,
         length,
@@ -288,13 +288,13 @@ extension HabitQueryFilter on QueryBuilder<Habit, Habit, QFilterCondition> {
   }
 
   QueryBuilder<Habit, Habit, QAfterFilterCondition>
-      completedDaysLengthGreaterThan(
+      complatedDaysLengthGreaterThan(
     int length, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
-        r'completedDays',
+        r'complatedDays',
         length,
         include,
         999999,
@@ -303,7 +303,7 @@ extension HabitQueryFilter on QueryBuilder<Habit, Habit, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Habit, Habit, QAfterFilterCondition> completedDaysLengthBetween(
+  QueryBuilder<Habit, Habit, QAfterFilterCondition> complatedDaysLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -311,12 +311,142 @@ extension HabitQueryFilter on QueryBuilder<Habit, Habit, QFilterCondition> {
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
-        r'completedDays',
+        r'complatedDays',
         lower,
         includeLower,
         upper,
         includeUpper,
       );
+    });
+  }
+
+  QueryBuilder<Habit, Habit, QAfterFilterCondition> habitNameEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'habitName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Habit, Habit, QAfterFilterCondition> habitNameGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'habitName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Habit, Habit, QAfterFilterCondition> habitNameLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'habitName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Habit, Habit, QAfterFilterCondition> habitNameBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'habitName',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Habit, Habit, QAfterFilterCondition> habitNameStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'habitName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Habit, Habit, QAfterFilterCondition> habitNameEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'habitName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Habit, Habit, QAfterFilterCondition> habitNameContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'habitName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Habit, Habit, QAfterFilterCondition> habitNameMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'habitName',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Habit, Habit, QAfterFilterCondition> habitNameIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'habitName',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Habit, Habit, QAfterFilterCondition> habitNameIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'habitName',
+        value: '',
+      ));
     });
   }
 
@@ -371,134 +501,6 @@ extension HabitQueryFilter on QueryBuilder<Habit, Habit, QFilterCondition> {
       ));
     });
   }
-
-  QueryBuilder<Habit, Habit, QAfterFilterCondition> nameEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Habit, Habit, QAfterFilterCondition> nameGreaterThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Habit, Habit, QAfterFilterCondition> nameLessThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Habit, Habit, QAfterFilterCondition> nameBetween(
-    String lower,
-    String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'name',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Habit, Habit, QAfterFilterCondition> nameStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Habit, Habit, QAfterFilterCondition> nameEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Habit, Habit, QAfterFilterCondition> nameContains(String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Habit, Habit, QAfterFilterCondition> nameMatches(String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'name',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Habit, Habit, QAfterFilterCondition> nameIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'name',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Habit, Habit, QAfterFilterCondition> nameIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'name',
-        value: '',
-      ));
-    });
-  }
 }
 
 extension HabitQueryObject on QueryBuilder<Habit, Habit, QFilterCondition> {}
@@ -506,20 +508,32 @@ extension HabitQueryObject on QueryBuilder<Habit, Habit, QFilterCondition> {}
 extension HabitQueryLinks on QueryBuilder<Habit, Habit, QFilterCondition> {}
 
 extension HabitQuerySortBy on QueryBuilder<Habit, Habit, QSortBy> {
-  QueryBuilder<Habit, Habit, QAfterSortBy> sortByName() {
+  QueryBuilder<Habit, Habit, QAfterSortBy> sortByHabitName() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'name', Sort.asc);
+      return query.addSortBy(r'habitName', Sort.asc);
     });
   }
 
-  QueryBuilder<Habit, Habit, QAfterSortBy> sortByNameDesc() {
+  QueryBuilder<Habit, Habit, QAfterSortBy> sortByHabitNameDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'name', Sort.desc);
+      return query.addSortBy(r'habitName', Sort.desc);
     });
   }
 }
 
 extension HabitQuerySortThenBy on QueryBuilder<Habit, Habit, QSortThenBy> {
+  QueryBuilder<Habit, Habit, QAfterSortBy> thenByHabitName() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'habitName', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Habit, Habit, QAfterSortBy> thenByHabitNameDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'habitName', Sort.desc);
+    });
+  }
+
   QueryBuilder<Habit, Habit, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -531,31 +545,19 @@ extension HabitQuerySortThenBy on QueryBuilder<Habit, Habit, QSortThenBy> {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
-
-  QueryBuilder<Habit, Habit, QAfterSortBy> thenByName() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'name', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Habit, Habit, QAfterSortBy> thenByNameDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'name', Sort.desc);
-    });
-  }
 }
 
 extension HabitQueryWhereDistinct on QueryBuilder<Habit, Habit, QDistinct> {
-  QueryBuilder<Habit, Habit, QDistinct> distinctByCompletedDays() {
+  QueryBuilder<Habit, Habit, QDistinct> distinctByComplatedDays() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'completedDays');
+      return query.addDistinctBy(r'complatedDays');
     });
   }
 
-  QueryBuilder<Habit, Habit, QDistinct> distinctByName(
+  QueryBuilder<Habit, Habit, QDistinct> distinctByHabitName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'name', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'habitName', caseSensitive: caseSensitive);
     });
   }
 }
@@ -568,15 +570,15 @@ extension HabitQueryProperty on QueryBuilder<Habit, Habit, QQueryProperty> {
   }
 
   QueryBuilder<Habit, List<DateTime>, QQueryOperations>
-      completedDaysProperty() {
+      complatedDaysProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'completedDays');
+      return query.addPropertyName(r'complatedDays');
     });
   }
 
-  QueryBuilder<Habit, String, QQueryOperations> nameProperty() {
+  QueryBuilder<Habit, String, QQueryOperations> habitNameProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'name');
+      return query.addPropertyName(r'habitName');
     });
   }
 }
