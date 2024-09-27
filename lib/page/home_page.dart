@@ -1,12 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracking/components/drawer.dart';
+import 'package:habit_tracking/components/habit_list.dart';
 import 'package:habit_tracking/database/habit_database.dart';
 import 'package:habit_tracking/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final TextEditingController textController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<HabitDatabase>(context, listen: false).readHabits();
+  }
 
   void createHabit(BuildContext context) {
     showDialog(
@@ -30,7 +43,7 @@ class HomePage extends StatelessWidget {
           ),
           MaterialButton(
             onPressed: () {
-              //save
+              // Save the new habit
               String newHabit = textController.text;
               context.read<HabitDatabase>().addHabit(newHabit);
 
@@ -61,6 +74,11 @@ class HomePage extends StatelessWidget {
         elevation: 0,
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         child: const Icon(Icons.add),
+      ),
+      body: Consumer<HabitDatabase>(
+        builder: (context, habitDatabase, child) {
+          return const HabitList();
+        },
       ),
     );
   }
