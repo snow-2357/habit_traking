@@ -12,7 +12,9 @@ class HomePage extends StatelessWidget {
         Provider.of<ThemeProvider>(context); // Listen for theme changes
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
+      ),
       drawer: Drawer(
         backgroundColor: Theme.of(context).colorScheme.surface,
         child: Center(
