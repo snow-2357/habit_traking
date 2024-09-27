@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.habit_traking"
+    namespace = "com.example.habit_tracking"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
