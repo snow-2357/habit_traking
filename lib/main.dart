@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:habit_tracking/theme/dark_mode.dart';
-import 'package:habit_tracking/theme/light_mode.dart';
 import 'package:habit_tracking/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -9,7 +7,7 @@ import 'page/home_page.dart';
 void main() {
   runApp(ChangeNotifierProvider(
     create: (context) => ThemeProvider(),
-    child: const MyApp(),
+    child: MyApp(),
   ));
 }
 
