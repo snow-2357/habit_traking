@@ -30,7 +30,7 @@ class HabitDatabase extends ChangeNotifier {
   // get first date of app startup (for heatmap)
   Future<DateTime?> getFirstLaunchDate() async {
     final settings = await isar.appSettings.where().findFirst();
-    return settings?.firstLaunchDate;
+    return settings?.firstLaunchDate ?? DateTime.now();
   }
 
   //List of habits
@@ -112,3 +112,7 @@ class HabitDatabase extends ChangeNotifier {
     readHabits();
   }
 }
+
+
+// Science  is  what we
+// everything  else  we

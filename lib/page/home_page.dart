@@ -8,8 +8,6 @@ import 'package:habit_tracking/model/habit.dart';
 import 'package:habit_tracking/utils/habit_util.dart';
 import 'package:provider/provider.dart';
 
-// import 'package:minimal_habit_tracker/util/habit_util.dart';
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -18,19 +16,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final TextEditingController controller = TextEditingController();
-
   @override
   void initState() {
     Provider.of<HabitDatabase>(context, listen: false).readHabits();
     super.initState();
   }
 
-  @override
-  void dispose() {
-    controller.dispose(); // Dispose controller to prevent memory leaks
-    super.dispose();
-  }
+  final controller = TextEditingController();
 
   void createNewHabit() {
     showDialog(
@@ -85,6 +77,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void deleteHabit(Habit habit) {
+    controller.text = habit.habitName;
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -124,6 +117,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void checkHabitOnOff(bool? value, Habit habit) {
+    //update habit completion status
     if (value != null) {
       context.read<HabitDatabase>().updateHabitCompletion(habit.id, value);
     }
@@ -135,7 +129,7 @@ class _HomePageState extends State<HomePage> {
         builder: (context) => AlertDialog(
               title: const Text("How to use?"),
               content: const Text(
-                  "Create a habit with the floating button. \nSlide the habit to see options."),
+                  "Create a habit with floating button. \nSlide the habit for seeing options."),
               actions: [
                 TextButton(
                     onPressed: () {
@@ -155,28 +149,26 @@ class _HomePageState extends State<HomePage> {
         foregroundColor: Theme.of(context).colorScheme.inversePrimary,
         actions: [
           IconButton(
-              onPressed: buildHelpDialog, icon: const Icon(Icons.help_outline))
+              onPressed: () {
+                buildHelpDialog();
+              },
+              icon: const Icon(Icons.help_outline))
         ],
       ),
       drawer: const MyDrawer(),
       floatingActionButton: FloatingActionButton(
         shape: const CircleBorder(),
-        onPressed: createNewHabit,
+        onPressed: () {
+          createNewHabit();
+        },
         elevation: 0,
         backgroundColor: Theme.of(context).colorScheme.tertiary,
         child: const Icon(
           Icons.add,
-          color: Colors.white, // Ensure better contrast for the FAB icon
+          color: Colors.black,
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _buildHeatMap(),
-            _buildHabitList(), // List is wrapped correctly in a column
-          ],
-        ),
-      ),
+      body: ListView(children: [_buildHeatMap(), _buildHabitList()]),
     );
   }
 
@@ -200,20 +192,23 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildHabitList() {
     final habitDatabase = context.watch<HabitDatabase>();
+
     List<Habit> currentHabits = habitDatabase.currentHabit;
 
     return ListView.builder(
       itemCount: currentHabits.length,
       shrinkWrap: true,
-      physics:
-          const NeverScrollableScrollPhysics(), // Disable scrolling on the inner ListView
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         final habit = currentHabits[index];
         bool isCompletedToday = isHabitCompletedToday(habit.complatedDays);
-
         return HabitTile(
-          deleteHabit: (context) => deleteHabit(habit),
-          editHabit: (context) => editHabit(habit),
+          deleteHabit: (context) {
+            deleteHabit(habit);
+          },
+          editHabit: (context) {
+            editHabit(habit);
+          },
           isCompleted: isCompletedToday,
           habitName: habit.habitName,
           onChanged: (value) => checkHabitOnOff(value, habit),

@@ -10,5 +10,5 @@ class Habit {
     //DateTime(year,month,day)
   ];
 
-  String get name => null;
+  String get name => "";
 }
